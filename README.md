@@ -116,9 +116,32 @@ This virtual representation allows the framework to:
 
 ## 🚀 Getting Started
 
-### Installation
+### Quick Start with Script
 
-No installation needed! Just include the framework files in your HTML:
+The easiest way to create a new app is using the provided shell script:
+
+```bash
+# Create a new app
+./createApp.sh my-app-name
+
+# Navigate to your new app
+cd my-app-name
+
+# Start a local server
+python3 -m http.server 8000
+
+# Open http://localhost:8000 in your browser
+```
+
+The script will:
+- Create a complete project structure
+- Copy all framework files
+- Generate a starter app with a counter example
+- Include README and .gitignore files
+
+### Manual Installation
+
+No installation needed! Just create an HTML file with a root element and link your main app file:
 
 ```html
 <!DOCTYPE html>
@@ -130,17 +153,25 @@ No installation needed! Just include the framework files in your HTML:
 <body>
     <div id="root"></div>
     
-    <script src="/framework/core.js" type="module"></script>
-    <script src="/framework/router.js" type="module"></script>
     <script src="/app/main.js" type="module"></script>
 </body>
 </html>
 ```
 
-### Quick Start
+Then import the framework in your JavaScript app file (`/app/main.js`):
 
 ```javascript
-import { createApp, createElement as h } from './framework/core.js';
+import { createApp, createElement as h } from '../framework/core.js';
+import { createRouter } from '../framework/router.js';
+```
+
+### Quick Start
+
+Create your app file (`/app/main.js`):
+
+```javascript
+import { createApp, createElement as h } from '../framework/core.js';
+import { createRouter } from '../framework/router.js';
 
 // Define initial state
 const initialState = {
@@ -183,7 +214,7 @@ createElement(tag, attrs, ...children)
 
 **Example:**
 ```javascript
-import { createElement as h } from './framework/core.js';
+import { createElement as h } from '../framework/core.js';
 
 // Simple element with text
 const heading = h('h1', {}, 'Hello World');
@@ -218,7 +249,7 @@ createApp({ view, initialState, rootElement })
 
 **Example:**
 ```javascript
-import { createApp, createElement as h } from './framework/core.js';
+import { createApp, createElement as h } from '../framework/core.js';
 
 const initialState = { message: 'Hello!' };
 
@@ -256,7 +287,7 @@ createStore(initialState)
 
 **Example:**
 ```javascript
-import { createStore } from './framework/core.js';
+import { createStore } from '../framework/core.js';
 
 const store = createStore({ count: 0 });
 
@@ -283,8 +314,8 @@ createRouter(store)
 
 **Example:**
 ```javascript
-import { createApp, createElement as h } from './framework/core.js';
-import { createRouter } from './framework/router.js';
+import { createApp, createElement as h } from '../framework/core.js';
+import { createRouter } from '../framework/router.js';
 
 const initialState = { currentFilter: '#/' };
 
@@ -305,7 +336,7 @@ createRouter(store); // Syncs hash changes to state.currentFilter
 ### Creating an Element
 
 ```javascript
-import { createElement as h } from './framework/core.js';
+import { createElement as h } from '../framework/core.js';
 
 // Basic element
 const element = h('div', { id: 'foo' }, 'Hello');
@@ -316,7 +347,7 @@ const element = h('div', { id: 'foo' }, 'Hello');
 ### Nesting Elements
 
 ```javascript
-import { createElement as h } from './framework/core.js';
+import { createElement as h } from '../framework/core.js';
 
 const nested = h('div', {},
     h('span', {}, 'Nested content'),
@@ -333,7 +364,7 @@ const nested = h('div', {},
 ### Adding Attributes
 
 ```javascript
-import { createElement as h } from './framework/core.js';
+import { createElement as h } from '../framework/core.js';
 
 const withAttrs = h('input', {
     type: 'text',
@@ -348,7 +379,7 @@ const withAttrs = h('input', {
 ### Creating an Event
 
 ```javascript
-import { createElement as h } from './framework/core.js';
+import { createElement as h } from '../framework/core.js';
 
 const button = h('button', {
     onclick: () => alert('Button clicked!')
@@ -360,7 +391,7 @@ const button = h('button', {
 ### Complete App Example
 
 ```javascript
-import { createApp, createElement as h } from './framework/core.js';
+import { createApp, createElement as h } from '../framework/core.js';
 
 // Initial state
 const initialState = {
