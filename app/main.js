@@ -96,7 +96,7 @@ function renderMain(state) {
             id: 'toggle-all',
             class: 'toggle-all',
             type: 'checkbox',
-            checked: allCompleted ? 'checked' : '',
+            checked: allCompleted,
             onchange: (event) => {
                 const checked = event.target.checked;
                 const updatedTodos = state.todos.map(todo => ({
@@ -107,7 +107,7 @@ function renderMain(state) {
                 saveTodos(updatedTodos);
             }
         }),
-        h('label', { for: 'toggle-all' }, 'Mark all as complete'),
+        h('label', { for: 'toggle-all', style: 'display: none;' }, 'Mark all as complete'),
         h('ul', { class: 'todo-list' },
             ...filteredTodos.map(todo => {
                 let liClass = '';
@@ -119,6 +119,7 @@ function renderMain(state) {
                     const toggleAttrs = {
                         class: 'toggle',
                         type: 'checkbox',
+                        checked: todo.completed,
                         onchange: () => {
                             const updatedTodos = state.todos.map(t =>
                                 t.id === todo.id ? { ...t, completed: !t.completed } : t
@@ -127,11 +128,8 @@ function renderMain(state) {
                             saveTodos(updatedTodos);
                         }
                     };
-                    if (todo.completed) {
-                        toggleAttrs.checked = 'checked';
-                    }
                     
-                    return h('li', { class: liClass },
+                    return h('li', { class: liClass, key: todo.id },
                         h('div', { class: 'view' },
                             h('input', toggleAttrs),
                             h('label', {
@@ -222,6 +220,7 @@ function renderMain(state) {
                     const toggleAttrs = {
                         class: 'toggle',
                         type: 'checkbox',
+                        checked: todo.completed,
                         onchange: () => {
                             const updatedTodos = state.todos.map(t =>
                                 t.id === todo.id ? { ...t, completed: !t.completed } : t
@@ -230,11 +229,8 @@ function renderMain(state) {
                             saveTodos(updatedTodos);
                         }
                     };
-                    if (todo.completed) {
-                        toggleAttrs.checked = 'checked';
-                    }
                     
-                    return h('li', { class: liClass },
+                    return h('li', { class: liClass, key: todo.id },
                         h('div', { class: 'view' },
                             h('input', toggleAttrs),
                             h('label', {
@@ -266,12 +262,13 @@ function renderMain(state) {
 }
 
 function renderFooter(state) {
-    if (state.todos.length === 0) {
+    const activeCount = state.todos.filter(t => !t.completed).length;
+    const completedCount = state.todos.filter(t => t.completed).length;
+    
+    if (state.todos.length === 0 || (activeCount === 0 && completedCount === 0)) {
         return null;
     }
 
-    const activeCount = state.todos.filter(t => !t.completed).length;
-    const completedCount = state.todos.filter(t => t.completed).length;
     const itemText = activeCount === 1 ? 'item' : 'items';
 
     return h('footer', { class: 'footer' },

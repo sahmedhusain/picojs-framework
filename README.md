@@ -32,8 +32,29 @@ The framework implements the following key features:
 
 - **DOM Abstraction** - Virtual DOM representation for efficient rendering
 - **State Management** - Reactive store with automatic re-rendering
-- **Event Handling** - Declarative event binding
+- **Event Handling** - Declarative event binding with delegation
 - **Routing System** - Hash-based routing synchronized with app state
+
+### Framework Architecture
+
+The framework is organized into focused, modular files:
+
+```
+framework/
+├── core.js                    # Main exports (barrel file)
+├── app.js                     # Application initialization
+├── events.js                  # Event delegation system
+├── store.js                   # State management
+├── router.js                  # Hash-based routing
+└── vdom/
+    ├── createElement.js       # Virtual node creation
+    ├── render.js              # Main render with focus preservation
+    ├── patch.js               # Diffing & patching algorithm
+    ├── attrs.js               # Attribute handling
+    └── domElement.js          # DOM element creation
+```
+
+Each module has a single, clear responsibility, making the framework easy to understand, maintain, and test.
 
 ## 🔧 How It Works
 
@@ -53,6 +74,45 @@ This approach provides several benefits:
 - **Predictable** - The UI is always a pure function of the state
 - **Efficient** - Only the changed parts of the DOM are updated
 - **Easy to reason about** - No manual DOM manipulation needed
+
+### Virtual DOM Structure
+
+The framework represents HTML elements as plain JavaScript objects (vNodes):
+
+```javascript
+// HTML
+<div class="container">
+  <h1>Hello</h1>
+  <p>World</p>
+</div>
+
+// Becomes a vNode object
+{
+  tag: 'div',
+  attrs: { class: 'container' },
+  children: [
+    {
+      tag: 'h1',
+      attrs: {},
+      children: [
+        { tag: 'TEXT_ELEMENT', attrs: { nodeValue: 'Hello' }, children: [] }
+      ]
+    },
+    {
+      tag: 'p',
+      attrs: {},
+      children: [
+        { tag: 'TEXT_ELEMENT', attrs: { nodeValue: 'World' }, children: [] }
+      ]
+    }
+  ]
+}
+```
+
+This virtual representation allows the framework to:
+1. **Compare** old and new virtual trees (diffing)
+2. **Calculate** minimal changes needed
+3. **Apply** only those changes to the real DOM (patching)
 
 ## 🚀 Getting Started
 
@@ -396,6 +456,29 @@ This declarative approach:
 1. Makes event handling explicit in the UI definition
 2. Automatically cleans up listeners when elements are removed
 3. Keeps event logic close to the elements they affect
+
+**How it differs from `addEventListener()`:**
+
+Unlike the standard `addEventListener()` method, the framework uses a **custom event delegation system**:
+
+```javascript
+// Standard addEventListener (NOT used in this framework)
+element.addEventListener('click', handler);
+
+// Framework's declarative approach
+const button = h('button', {
+    onclick: () => console.log('Clicked!')
+}, 'Click Me');
+```
+
+**Under the hood:**
+1. Event handlers are registered in a central `eventRegistry`
+2. A single delegated listener is attached to the root element for each event type
+3. Events bubble up and are matched using `data-ev-{eventName}` attributes
+4. Handlers are deduplicated using a WeakMap to prevent memory leaks
+5. When elements are removed, their handlers are automatically cleaned up
+
+This approach is more efficient than attaching individual listeners to every element.
 
 ### Hash-based Routing
 

@@ -1,29 +1,14 @@
-/**
- * Mini Framework - Router Module
- * Phase 3 - Prompt 8: Create the Router
- * Handles client-side hash-based routing and URL synchronization with app state
- */
-
-/**
- * Create a router that syncs URL hash with app state
- * @param {object} store - The app's store object
- */
+// Hash-based routing system
+// Synchronizes URL hash (#/, #/active, #/completed) with application state
 export function createRouter(store) {
-    /**
-     * Handler for hash changes
-     * Gets current hash and updates the store's currentFilter state
-     */
-    function handleHashChange() {
-        // Get the current hash (e.g., '#/', '#/active', '#/completed')
+    function updateRoute() {
         const hash = window.location.hash || '#/';
-        
-        // Update the store with the current filter based on the hash
-        store.setState({ currentFilter: hash });
+        const currentFilter = hash.replace('#/', '');
+        // Update state to trigger re-render with new filter
+        store.setState({ filter: currentFilter });
     }
-    
-    // Listen for hash changes
-    window.addEventListener('hashchange', handleHashChange);
-    
-    // Call handler once immediately to set initial filter state from URL
-    handleHashChange();
+
+    // Listen for hash changes (browser back/forward, manual changes)
+    window.addEventListener('hashchange', updateRoute);
+    updateRoute(); // Set initial route
 }
