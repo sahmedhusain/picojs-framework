@@ -30,11 +30,6 @@ function addTodo() {
             newTodo: ''
         });
         saveTodos(updatedTodos);
-        
-        const input = document.querySelector('.new-todo');
-        if (input) {
-            setTimeout(() => input.focus(), 0);
-        }
     }
 }
 
@@ -48,15 +43,12 @@ function renderHeader(state) {
                 class: 'new-todo',
                 placeholder: 'What needs to be done?',
                 autofocus: 'true',
+                'data-focuskey': 'new-todo-input',
                 value: state.newTodo,
                 oninput: (event) => {
-                    const newValue = event.target.value;
-                    const currentState = store.getState();
-                    if (currentState.newTodo !== newValue) {
-                        store.setState({ newTodo: newValue });
-                    }
+                    store.setState({ newTodo: event.target.value });
                 },
-                onkeypress: (event) => {
+                onkeydown: (event) => {
                     if (event.key === 'Enter') {
                         event.preventDefault();
                         addTodo();
@@ -155,6 +147,7 @@ function renderMain(state) {
                         ),
                         h('input', {
                             class: 'edit',
+                            'data-focuskey': `edit-${todo.id}`,
                             value: state.editingId === todo.id ? state.editingText : todo.title,
                             oninput: (event) => {
                                 store.setState({ editingText: event.target.value });
@@ -302,6 +295,9 @@ function renderFooter(state) {
                 const updatedTodos = state.todos.filter(t => !t.completed);
                 store.setState({ todos: updatedTodos });
                 saveTodos(updatedTodos);
+                if (state.currentFilter === '#/completed' && updatedTodos.length > 0) {
+                    window.location.hash = '#/';
+                }
             }
         }, 'Clear completed') : null
     );

@@ -21,16 +21,17 @@ export function createDOMElement(vNode) {
             const eventName = key.substring(2).toLowerCase();
             const handlerId = registerEventHandler(eventName, value);
             element.setAttribute(`data-ev-${eventName}`, handlerId);
+        } else if (key === 'checked') {
+            element.checked = value === true || value === 'true' || value === '';
+        } else if (key === 'value') {
+            element.value = value ?? '';
         } else if (typeof value === 'boolean') {
-            // Boolean attributes (checked, disabled, etc.)
             if (value) {
                 element.setAttribute(key, '');
             }
-        } else if (key in element && key !== 'list' && key !== 'type' && key !== 'draggable') {
-            // Set as property for better reactivity (value, className, etc.)
+        } else if (key in element && key !== 'list' && key !== 'type' && key !== 'draggable' && key !== 'key') {
             element[key] = value;
-        } else {
-            // Set as standard attribute
+        } else if (key !== 'key') {
             element.setAttribute(key, value);
         }
     }

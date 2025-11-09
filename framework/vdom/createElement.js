@@ -5,8 +5,8 @@ export const TEXT_ELEMENT = Symbol('TEXT_ELEMENT');
 // vNode structure: { tag, attrs, children, key }
 // Text strings are automatically converted to TEXT_ELEMENT nodes
 export function createElement(tag, attrs = {}, ...children) {
-    const { key, ...restAttrs } = attrs;
-
+    const key = attrs && attrs.key;
+    
     // Flatten nested arrays and convert text to TEXT_ELEMENT nodes
     const flatChildren = children
         .flat(Infinity)
@@ -19,10 +19,16 @@ export function createElement(tag, attrs = {}, ...children) {
         })
         .filter(child => child != null && child !== false);
 
-    return {
+    const vNode = {
         tag,
-        attrs: restAttrs,
-        children: flatChildren,
-        key
+        attrs: attrs || {},
+        children: flatChildren
     };
+    
+    if (key !== undefined) {
+        vNode.key = key;
+        vNode.attrs.key = key;
+    }
+    
+    return vNode;
 }

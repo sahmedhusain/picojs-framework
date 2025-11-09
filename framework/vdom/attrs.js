@@ -22,16 +22,24 @@ export function patchAttrs(element, oldAttrs, newAttrs) {
         const newValue = newAttrs[key];
 
         if (key.startsWith('on') && typeof newValue === 'function') {
-            // Event handler: register with delegation system
+            // Event handler: ALWAYS register with delegation system
+            // Functions are new closures on each render, so always update
             const eventName = key.substring(2).toLowerCase();
-            if (oldValue !== newValue) {
-                const handlerId = registerEventHandler(eventName, newValue);
-                element.setAttribute(`data-ev-${eventName}`, handlerId);
-            }
+            const handlerId = registerEventHandler(eventName, newValue);
+            element.setAttribute(`data-ev-${eventName}`, handlerId);
         } else if (key.startsWith('on') && !newValue) {
             // Event handler removed
             const eventName = key.substring(2).toLowerCase();
             element.removeAttribute(`data-ev-${eventName}`);
+        } else if (key === 'value') {
+            // Special handling for value - ALWAYS sync to ensure controlled inputs work
+            // Don't check if values are equal - just set it
+            const targetValue = newValue ?? '';
+            element.value = targetValue;
+        } else if (key === 'checked') {
+            // Special handling for checked - ALWAYS sync for checkboxes/radios
+            const targetChecked = newValue === true || newValue === 'true' || newValue === '';
+            element.checked = targetChecked;
         } else if (knownProps.has(key)) {
             // Known property: set as element property for reactivity
             if (oldValue !== newValue) {

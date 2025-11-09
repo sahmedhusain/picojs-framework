@@ -1,5 +1,6 @@
 import { patchAttrs } from './attrs.js';
 import { createDOMElement } from './domElement.js';
+import { TEXT_ELEMENT } from './createElement.js';
 
 // Core diffing algorithm - compares old and new Virtual DOM nodes and updates real DOM
 // Minimizes DOM operations by only patching differences
@@ -7,7 +8,7 @@ export function patch(parent, oldVNode, newVNode, index = 0) {
     const domNode = parent.childNodes[index];
 
     // Node removed
-    if (!newVNode) {
+    if (!newVNode || newVNode === false || newVNode === null || newVNode === undefined) {
         if (domNode) {
             parent.removeChild(domNode);
         }
@@ -15,33 +16,53 @@ export function patch(parent, oldVNode, newVNode, index = 0) {
     }
 
     // Node added
-    if (!oldVNode) {
+    if (!oldVNode || oldVNode === false || oldVNode === null || oldVNode === undefined) {
         const newElement = createDOMElement(newVNode);
         parent.appendChild(newElement);
         return;
     }
 
     // Handle primitive children (strings/numbers)
-    if (typeof oldVNode === 'string' || typeof newVNode === 'string') {
+    if (typeof oldVNode === 'string' || typeof oldVNode === 'number' || typeof newVNode === 'string' || typeof newVNode === 'number') {
         if (oldVNode !== newVNode) {
             const newElement = createDOMElement(newVNode);
-            parent.replaceChild(newElement, domNode);
+            if (domNode) {
+                parent.replaceChild(newElement, domNode);
+            } else {
+                parent.appendChild(newElement);
+            }
         }
+        return;
+    }
+
+    if (typeof oldVNode !== 'object' || typeof newVNode !== 'object') {
         return;
     }
 
     // Different tag type - replace entire subtree
     if (oldVNode.tag !== newVNode.tag) {
         const newElement = createDOMElement(newVNode);
-        parent.replaceChild(newElement, domNode);
+        if (domNode) {
+            parent.replaceChild(newElement, domNode);
+        } else {
+            parent.appendChild(newElement);
+        }
         return;
     }
 
     // Text node - update content if changed
-    if (oldVNode.tag === 'TEXT_ELEMENT') {
-        if (oldVNode.attrs.nodeValue !== newVNode.attrs.nodeValue) {
-            domNode.nodeValue = newVNode.attrs.nodeValue;
+    if (oldVNode.tag === TEXT_ELEMENT) {
+        if (oldVNode.children && newVNode.children && oldVNode.children[0] !== newVNode.children[0]) {
+            if (domNode && domNode.nodeType === Node.TEXT_NODE) {
+                domNode.nodeValue = newVNode.children[0] || '';
+            }
         }
+        return;
+    }
+
+    if (!domNode) {
+        const newElement = createDOMElement(newVNode);
+        parent.appendChild(newElement);
         return;
     }
 
@@ -52,8 +73,8 @@ export function patch(parent, oldVNode, newVNode, index = 0) {
     const newChildren = newVNode.children || [];
 
     // Use keyed reconciliation if any children have keys
-    const oldHasKeys = oldChildren.some(child => child && child.attrs && child.attrs.key !== undefined);
-    const newHasKeys = newChildren.some(child => child && child.attrs && child.attrs.key !== undefined);
+    const oldHasKeys = oldChildren.some(child => child && typeof child === 'object' && child.key !== undefined);
+    const newHasKeys = newChildren.some(child => child && typeof child === 'object' && child.key !== undefined);
 
     if (oldHasKeys || newHasKeys) {
         patchKeyedChildren(domNode, oldChildren, newChildren);
@@ -77,7 +98,7 @@ export function patchKeyedChildren(parent, oldChildren, newChildren) {
     
     for (let i = 0; i < oldChildren.length; i++) {
         const child = oldChildren[i];
-        const key = child && child.attrs && child.attrs.key;
+        const key = child && typeof child === 'object' ? child.key : undefined;
         const domNode = parent.childNodes[i];
         
         if (key !== undefined) {
@@ -94,7 +115,7 @@ export function patchKeyedChildren(parent, oldChildren, newChildren) {
     // Process new children in order
     for (let i = 0; i < newChildren.length; i++) {
         const newChild = newChildren[i];
-        const newKey = newChild && newChild.attrs && newChild.attrs.key;
+        const newKey = newChild && typeof newChild === 'object' ? newChild.key : undefined;
         
         if (newKey !== undefined) {
             // Keyed node: reuse existing DOM node if found

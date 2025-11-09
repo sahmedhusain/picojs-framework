@@ -11,7 +11,7 @@ export function render(vNode, container) {
     let activeSelectionEnd = null;
 
     // Capture focus state before updating DOM
-    if (isInputFocused) {
+    if (isInputFocused && activeElement.closest('#root')) {
         focusKey = activeElement.getAttribute('data-focuskey');
         if (!focusKey) {
             // Generate unique key if not present
