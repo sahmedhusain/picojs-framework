@@ -3,11 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mini-framework</title>
+    <title>PicoJS Framework</title>
     <link rel="stylesheet" href="/app/styles.css">
+    <style>
+        #root {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        #root > div {
+            max-width: 1600px !important;
+            width: 100% !important;
+        }
+
+        @media (max-width: 1024px) {
+            #root > div {
+                max-width: 800px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #root {
+                padding: 15px;
+            }
+            #root > div {
+                max-width: 100% !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #root {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <section id="root"></section>
+    <header style="position: absolute; top: 20px; left: 20px; z-index: 10; display: flex; align-items: center; gap: 12px;">
+        <img src="/logo.svg" alt="PicoJS Framework Logo" style="width: 80px; height: 80px;">
+        <div style="text-align: left;">
+            <h1 style="margin: 0; font-size: 1.5em; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">PicoJS Framework</h1>
+            <p style="margin: 4px 0 0 0; color: rgba(255,255,255,0.9); font-size: 0.9em;">TodoMVC Demo</p>
+        </div>
+    </header>
+    <section id="root" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;"></section>
     <script src="/app/main.js" type="module"></script>
 </body>
 </html>

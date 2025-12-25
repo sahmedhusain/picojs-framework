@@ -21,7 +21,7 @@ if [ -d "$APP_DIR" ]; then
     exit 1
 fi
 
-echo -e "${BLUE}Creating new Mini Framework app: ${GREEN}$APP_NAME${NC}"
+echo -e "${BLUE}Creating new PicoJS Framework app: ${GREEN}$APP_NAME${NC}"
 
 mkdir -p "$APP_DIR/framework/vdom"
 mkdir -p "$APP_DIR/app"
@@ -44,6 +44,7 @@ cp "$SCRIPT_DIR/framework/vdom/render.js" "$APP_DIR/framework/vdom/render.js"
 cp "$SCRIPT_DIR/framework/vdom/patch.js" "$APP_DIR/framework/vdom/patch.js"
 cp "$SCRIPT_DIR/framework/vdom/attrs.js" "$APP_DIR/framework/vdom/attrs.js"
 cp "$SCRIPT_DIR/framework/vdom/domElement.js" "$APP_DIR/framework/vdom/domElement.js"
+cp "$SCRIPT_DIR/logo.svg" "$APP_DIR/logo.svg"
 
 echo -e "${GREEN}✓${NC} Copied framework files"
 
@@ -71,11 +72,11 @@ body {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 24px;
-    box-shadow: 
+    box-shadow:
         0 20px 60px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.1) inset;
     padding: 48px;
-    max-width: 500px;
+    max-width: 800px;
     width: 100%;
     animation: fadeIn 0.4s ease-out;
 }
@@ -530,18 +531,116 @@ header {
     }
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-    .feature-list ul {
-        grid-template-columns: 1fr;
+/* Responsive design */
+@media (max-width: 1024px) {
+    #root {
+        max-width: 700px;
+        padding: 40px;
     }
-    
+}
+
+@media (max-width: 768px) {
+    #root {
+        max-width: 600px;
+        padding: 32px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .count-display {
+        font-size: 4rem;
+    }
+
+    .button-group {
+        gap: 10px;
+    }
+
+    button {
+        padding: 12px 24px;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    #root {
+        max-width: 100%;
+        padding: 24px 20px;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+        margin-bottom: 24px;
+    }
+
+    .count-display {
+        font-size: 3.5rem;
+        margin: 30px 0;
+    }
+
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button {
+        width: 100%;
+        max-width: 280px;
+        padding: 14px 20px;
+        min-width: auto;
+    }
+
+    .toggle-btn {
+        min-width: 100%;
+        max-width: 320px;
+    }
+
     .advanced-section {
         padding: 20px;
     }
-    
-    .toggle-btn {
-        min-width: 100%;
+
+    .feature-list ul {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-tabs {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .filter-tab {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    #root {
+        padding: 20px 16px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .count-display {
+        font-size: 3rem;
+    }
+
+    .advanced-section {
+        padding: 16px;
+    }
+
+    .todo-item {
+        padding: 12px 16px;
+    }
+
+    .todo-text {
+        font-size: 0.95rem;
     }
 }
 EOF
@@ -554,13 +653,13 @@ cat > "$APP_DIR/index.html" << 'EOF'
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Framework App</title>
-    <link rel="stylesheet" href="/styles/main.css">
+    <title>PicoJS Framework App</title>
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
     <div id="root"></div>
-    
-    <script src="/app/main.js" type="module"></script>
+
+    <script src="app/main.js" type="module"></script>
 </body>
 </html>
 EOF
@@ -571,7 +670,7 @@ cat > "$APP_DIR/app/main.js" << 'EOF'
 import { createApp, createElement as h, bindInput } from '../framework/core.js';
 import { createRouter } from '../framework/router.js';
 
-console.log('🚀 Mini-Framework Demo App Started!');
+console.log('🚀 PicoJS Framework Demo App Started!');
 console.log('📚 This app demonstrates all framework features with detailed logging\n');
 
 // =============================================================================
@@ -584,7 +683,7 @@ console.log('   - Pub/sub pattern with subscribers\n');
 
 const initialState = {
     count: 0,
-    message: 'Welcome to Mini-Framework!',
+    message: 'Welcome to PicoJS Framework!',
     showAdvanced: false,
     currentFilter: '#/',
     user: {
@@ -789,7 +888,14 @@ function view(state) {
     return h('div', { class: 'app-container' }, [
         // Header
         h('header', {}, [
-            h('h1', {}, ['🚀 Mini-Framework Demo']),
+            h('h1', {}, [
+                h('img', {
+                    src: 'logo.svg',
+                    alt: 'PicoJS Framework Logo',
+                    style: 'width: 48px; height: 48px; vertical-align: middle; margin-right: 15px;'
+                }),
+                'PicoJS Framework Demo'
+            ]),
             h('p', { class: 'subtitle' }, [state.message])
         ]),
 
@@ -945,7 +1051,7 @@ echo -e "${GREEN}✓${NC} Created app/main.js"
 cat > "$APP_DIR/README.md" << EOF
 # $APP_NAME
 
-A web application built with Mini Framework.
+A web application built with PicoJS Framework.
 
 ## Getting Started
 
@@ -1060,7 +1166,7 @@ store = createApp({ view, initialState, rootElement });
 
 ## Learn More
 
-For complete documentation, see the Mini Framework documentation.
+For complete documentation, see the PicoJS Framework documentation.
 EOF
 
 echo -e "${GREEN}✓${NC} Created README.md"

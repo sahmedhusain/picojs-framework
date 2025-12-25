@@ -1,184 +1,227 @@
-# Mini Framework
+# PicoJS Framework
 
-A lightweight, zero-dependency JavaScript framework for building reactive web applications.
+<div align="center">
+  <img src="logo.svg" alt="PicoJS Framework Logo" width="120" height="120">
+  <h3>A lightweight, zero-dependency JavaScript framework for building reactive web applications</h3>
+</div>
+
+<p align="center">
+  <a href="https://github.com/yourusername/picojs-framework"><img src="https://img.shields.io/badge/GitHub-Repository-blue?style=flat-square&logo=github" alt="GitHub Repository"></a>
+  <a href="https://yourusername.github.io/picojs-framework"><img src="https://img.shields.io/badge/Live-Demo-green?style=flat-square&logo=github" alt="Live Demo"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License"></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" alt="HTML5">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS3">
+  <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white" alt="Git">
+  <img src="https://img.shields.io/badge/ES6+-yellow?style=flat-square" alt="ES6+">
+</p>
+
+---
+
+A lightweight, zero-dependency JavaScript framework for building reactive web applications with modern architecture patterns.
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [How It Works](#how-it-works)
-- [Getting Started](#getting-started)
-- [API Documentation](#api-documentation)
-  - [createElement](#createelement)
-  - [createApp](#createapp)
-  - [createStore](#createstore)
-  - [createRouter](#createrouter)
-- [Code Examples](#code-examples)
-- [TodoMVC Demo](#todomvc-demo)
-- [Why Things Work The Way They Work](#why-things-work-the-way-they-work)
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Architecture](#-architecture)
+- [Framework Structure](#-framework-structure)
+- [Getting Started](#-getting-started)
+- [API Documentation](#-api-documentation)
+- [Code Examples](#-code-examples)
+- [TodoMVC Demo](#-todomvc-demo)
+- [Why It Works This Way](#-why-it-works-this-way)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ## 🎯 Overview
 
-**Mini Framework** is a lightweight, zero-dependency framework for building reactive web applications. It features a Virtual DOM, component-based state management, and hash-based routing. This framework demonstrates core concepts used by popular frameworks like React and Vue, but in a simplified, educational format.
+**PicoJS Framework** is a minimal yet powerful JavaScript framework designed for building reactive web applications. It combines the best ideas from modern frameworks like React and Vue but strips away complexity to focus on core concepts. With zero external dependencies, it provides Virtual DOM rendering, reactive state management, event delegation, and hash-based routing - all in under 10KB gzipped.
 
-The framework is built on three core principles:
-1. **Declarative UI** - Describe what your UI should look like based on state
-2. **Reactive State Management** - Automatically re-render when state changes
-3. **Simple Routing** - Hash-based navigation that syncs with app state
+The framework emphasizes simplicity and learnability, making it perfect for developers who want to understand how modern web frameworks work under the hood. Whether you're building a small project or learning framework internals, PicoJS gives you the tools you need without the overhead.
 
 ## ✨ Features
 
-The framework implements the following key features:
+### Core Functionality
+- **Virtual DOM** - Efficient rendering with minimal DOM updates
+- **Reactive State** - Automatic UI updates when state changes
+- **Component Architecture** - Build UIs with composable functions
+- **Event System** - Declarative event handling with automatic cleanup
+- **Router** - Hash-based navigation that syncs with application state
 
-- **DOM Abstraction** - Virtual DOM representation for efficient rendering
-- **State Management** - Reactive store with automatic re-rendering
-- **Event Handling** - Declarative event binding with delegation
-- **Routing System** - Hash-based routing synchronized with app state
+### Developer Experience
+- **Zero Dependencies** - No external libraries required
+- **Small Bundle Size** - Under 10KB gzipped for fast loading
+- **ES6 Modules** - Modern JavaScript with tree-shaking support
+- **Educational** - Clean code that's easy to understand and modify
+- **Browser Native** - Works in all modern browsers without transpilation
 
-### Framework Architecture
+### Performance
+- **Efficient Diffing** - Only updates changed DOM elements
+- **Event Delegation** - Single listeners for better performance
+- **Memory Efficient** - Automatic cleanup prevents memory leaks
+- **Fast Rendering** - Optimized Virtual DOM patching algorithm
 
-The framework is organized into focused, modular files:
+## 🛠 Tech Stack
+
+### Core Technologies
+- **JavaScript ES6+** - Modern JavaScript with modules
+- **Virtual DOM** - Custom implementation for efficient rendering
+- **Hash Routing** - Client-side routing without server configuration
+- **Event Delegation** - Optimized event handling system
+
+### Browser Support
+- Chrome 60+
+- Firefox 55+
+- Safari 11+
+- Edge 79+
+
+### Development Tools
+- **Local Server** - Python's built-in server for development
+- **ES6 Modules** - Native browser module support
+- **Git** - Version control and collaboration
+
+## 🏗 Architecture
+
+PicoJS follows a modular architecture where each piece has a single responsibility. The framework is built around three main concepts:
+
+1. **State Management** - A reactive store that triggers re-renders
+2. **Virtual DOM** - A lightweight representation of the real DOM
+3. **Event System** - Declarative event handling with delegation
+
+### Data Flow
 
 ```
-framework/
-├── core.js                    # Main exports (barrel file)
-├── app.js                     # Application initialization
-├── events.js                  # Event delegation system
-├── store.js                   # State management
-├── router.js                  # Hash-based routing
-└── vdom/
-    ├── createElement.js       # Virtual node creation
-    ├── render.js              # Main render with focus preservation
-    ├── patch.js               # Diffing & patching algorithm
-    ├── attrs.js               # Attribute handling
-    └── domElement.js          # DOM element creation
+User Interaction → Event Handler → State Update → View Function → Virtual DOM → DOM Patch → UI Update
 ```
 
-Each module has a single, clear responsibility, making the framework easy to understand, maintain, and test.
+This unidirectional data flow makes applications predictable and easy to debug.
 
-## 🔧 How It Works
+## 📁 Framework Structure
 
-The framework works by creating a **virtual representation of the DOM**. Instead of directly manipulating the DOM, you define your UI as a function of your state:
+The framework is organized into focused modules, each handling a specific concern:
 
 ```
-State → View Function → Virtual DOM → Real DOM
+picojs-framework/
+├── framework/
+│   ├── core.js              # Main exports and framework initialization
+│   ├── app.js               # Application lifecycle management
+│   ├── store.js             # Reactive state management
+│   ├── router.js            # Hash-based routing system
+│   ├── events.js            # Event delegation and handling
+│   └── vdom/                # Virtual DOM implementation
+│       ├── createElement.js # Virtual node creation utilities
+│       ├── render.js        # Main rendering pipeline
+│       ├── patch.js         # DOM diffing and patching
+│       ├── attrs.js         # Attribute management
+│       └── domElement.js    # DOM element creation
+├── app/                     # Application code
+│   ├── main.js             # Main application entry point
+│   └── styles.css          # Application styles
+├── index.html              # Main HTML page
+├── createApp.sh            # Project scaffolding script
+└── README.md               # This documentation
 ```
 
-**The Flow:**
+### Module Relationships
 
-1. You define your UI as a **view function** that takes state and returns a virtual DOM tree
-2. When state changes, the framework re-runs this function to generate a new virtual tree
-3. The framework efficiently updates the real DOM to match the new virtual tree
+```mermaid
+graph TD
+    A[core.js] --> B[app.js]
+    A --> C[store.js]
+    A --> D[router.js]
+    A --> E[events.js]
+    A --> F[vdom/]
 
-This approach provides several benefits:
-- **Predictable** - The UI is always a pure function of the state
-- **Efficient** - Only the changed parts of the DOM are updated
-- **Easy to reason about** - No manual DOM manipulation needed
+    B --> C
+    B --> F
 
-### Virtual DOM Structure
+    F --> G[createElement.js]
+    F --> H[render.js]
+    F --> I[patch.js]
+    F --> J[attrs.js]
+    F --> K[domElement.js]
 
-The framework represents HTML elements as plain JavaScript objects (vNodes):
+    D --> C
+    E --> F
 
-```javascript
-// HTML
-<div class="container">
-  <h1>Hello</h1>
-  <p>World</p>
-</div>
+    L[main.js] --> A
+    L --> M[index.html]
 
-// Becomes a vNode object
-{
-  tag: 'div',
-  attrs: { class: 'container' },
-  children: [
-    {
-      tag: 'h1',
-      attrs: {},
-      children: [
-        { tag: 'TEXT_ELEMENT', attrs: { nodeValue: 'Hello' }, children: [] }
-      ]
-    },
-    {
-      tag: 'p',
-      attrs: {},
-      children: [
-        { tag: 'TEXT_ELEMENT', attrs: { nodeValue: 'World' }, children: [] }
-      ]
-    }
-  ]
-}
+    style A fill:#e1f5fe
+    style F fill:#f3e5f5
+    style L fill:#e8f5e8
 ```
 
-This virtual representation allows the framework to:
-1. **Compare** old and new virtual trees (diffing)
-2. **Calculate** minimal changes needed
-3. **Apply** only those changes to the real DOM (patching)
+**Core Module (core.js)** - The main entry point that exports all framework functionality
+**App Module (app.js)** - Handles application initialization and the main render loop
+**Store Module (store.js)** - Manages reactive state with subscription system
+**Router Module (router.js)** - Provides hash-based navigation
+**Events Module (events.js)** - Implements event delegation for performance
+**VDOM Modules** - Handle virtual DOM creation, diffing, and patching
 
 ## 🚀 Getting Started
 
-### Quick Start with Script
+### Quick Start (Recommended)
 
-The easiest way to create a new app is using the provided shell script:
+The fastest way to get started is using the included setup script:
 
 ```bash
-# Create a new app
-./createApp.sh my-app-name
+# Clone or download the framework
+git clone https://github.com/yourusername/picojs-framework.git
+cd picojs-framework
 
-# Navigate to your new app
-cd my-app-name
+# Create a new project
+./createApp.sh my-awesome-app
 
-# Start a local server
+# Move into your new project
+cd my-awesome-app
+
+# Start development server
 python3 -m http.server 8000
 
-# Open http://localhost:8000 in your browser
+# Open in browser
+open http://localhost:8000
 ```
 
-The script will:
-- Create a complete project structure
-- Copy all framework files
-- Generate a starter app with a counter example
-- Include README and .gitignore files
+The script creates a complete project with:
+- All framework files copied
+- A starter application with counter example
+- Proper directory structure
+- Ready-to-run HTML file
 
-### Manual Installation
+### Manual Setup
 
-No installation needed! Just create an HTML file with a root element and link your main app file:
+If you prefer to set up manually:
 
+1. **Create your HTML file:**
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My PicoJS App</title>
+    <link rel="stylesheet" href="/app/styles.css">
 </head>
 <body>
     <div id="root"></div>
-    
     <script src="/app/main.js" type="module"></script>
 </body>
 </html>
 ```
 
-Then import the framework in your JavaScript app file (`/app/main.js`):
-
+2. **Create your main JavaScript file (`/app/main.js`):**
 ```javascript
 import { createApp, createElement as h } from '../framework/core.js';
-import { createRouter } from '../framework/router.js';
-```
 
-### Quick Start
+// Your app code here
+const initialState = { count: 0 };
 
-Create your app file (`/app/main.js`):
-
-```javascript
-import { createApp, createElement as h } from '../framework/core.js';
-import { createRouter } from '../framework/router.js';
-
-// Define initial state
-const initialState = {
-    count: 0
-};
-
-// Define view function
 function view(state) {
     return h('div', {},
         h('h1', {}, `Count: ${state.count}`),
@@ -188,73 +231,76 @@ function view(state) {
     );
 }
 
-// Create and mount app
-const rootElement = document.getElementById('root');
-const store = createApp({ view, initialState, rootElement });
+const store = createApp({
+    view,
+    initialState,
+    rootElement: document.getElementById('root')
+});
 ```
 
-## � API Documentation
-
-### createElement
-
-Creates a virtual DOM element (also aliased as `h` for convenience).
-
-**Signature:**
-```javascript
-createElement(tag, attrs, ...children)
+3. **Start a local server:**
+```bash
+python3 -m http.server 8000
 ```
+
+## 📚 API Documentation
+
+### createElement (alias: h)
+
+Creates a virtual DOM element. This is the foundation of building UIs in PicoJS.
 
 **Parameters:**
-- `tag` (string) - The HTML tag name (e.g., 'div', 'button', 'input')
-- `attrs` (object) - Element attributes and event handlers
+- `tag` (string) - HTML tag name ('div', 'span', 'button', etc.)
+- `attrs` (object) - Attributes and event handlers
 - `children` (...any) - Child elements or text content
 
-**Returns:**
-- Virtual node object: `{ tag, attrs, children }`
+**Returns:** Virtual node object
 
-**Example:**
+**Examples:**
 ```javascript
-import { createElement as h } from '../framework/core.js';
+import { createElement as h } from './framework/core.js';
 
-// Simple element with text
-const heading = h('h1', {}, 'Hello World');
+// Simple text element
+const title = h('h1', {}, 'Hello World');
 
 // Element with attributes
-const div = h('div', { id: 'container', class: 'wrapper' }, 'Content');
+const input = h('input', {
+    type: 'text',
+    placeholder: 'Enter your name',
+    value: 'John Doe'
+});
 
-// Element with children
-const list = h('ul', {},
-    h('li', {}, 'Item 1'),
-    h('li', {}, 'Item 2'),
-    h('li', {}, 'Item 3')
+// Nested elements
+const card = h('div', { class: 'card' },
+    h('h2', {}, 'Card Title'),
+    h('p', {}, 'Card content here...')
 );
 ```
 
 ### createApp
 
-Creates and initializes the application with state management and rendering.
-
-**Signature:**
-```javascript
-createApp({ view, initialState, rootElement })
-```
+Initializes your PicoJS application with state management and rendering.
 
 **Parameters:**
-- `view` (function) - Function that takes state and returns virtual DOM
-- `initialState` (object) - Initial application state
-- `rootElement` (HTMLElement) - DOM element to render into
+- `options.view` (function) - Function that returns virtual DOM based on state
+- `options.initialState` (object) - Starting state for your application
+- `options.rootElement` (HTMLElement) - DOM element to render into
 
-**Returns:**
-- Store object with `getState()`, `setState()`, and `subscribe()` methods
+**Returns:** Store object with state management methods
 
 **Example:**
 ```javascript
-import { createApp, createElement as h } from '../framework/core.js';
+import { createApp, createElement as h } from './framework/core.js';
 
-const initialState = { message: 'Hello!' };
+const initialState = {
+    todos: [],
+    filter: 'all'
+};
 
 function view(state) {
-    return h('div', {}, h('p', {}, state.message));
+    return h('div', {},
+        // Your UI components here
+    );
 }
 
 const store = createApp({
@@ -262,292 +308,278 @@ const store = createApp({
     initialState,
     rootElement: document.getElementById('root')
 });
-
-// Update state later
-store.setState({ message: 'Updated!' });
 ```
 
 ### createStore
 
-Creates a reactive state store (typically used internally by `createApp`).
+Creates a reactive state store. Usually used internally by `createApp`.
 
-**Signature:**
-```javascript
-createStore(initialState)
-```
-
-**Parameters:**
-- `initialState` (object) - Initial state object
-
-**Returns:**
-- Store object with methods:
-  - `getState()` - Returns current state
-  - `setState(newState)` - Merges new state and notifies listeners
-  - `subscribe(listener)` - Adds a listener function for state changes
+**Methods:**
+- `getState()` - Returns current state
+- `setState(newState)` - Updates state and triggers re-render
+- `subscribe(listener)` - Adds function to call on state changes
 
 **Example:**
 ```javascript
-import { createStore } from '../framework/core.js';
+import { createStore } from './framework/core.js';
 
 const store = createStore({ count: 0 });
 
-// Subscribe to changes
 store.subscribe(() => {
-    console.log('State changed:', store.getState());
+    console.log('State updated:', store.getState());
 });
 
-// Update state
-store.setState({ count: 1 }); // Logs: State changed: { count: 1 }
+store.setState({ count: 1 }); // Triggers subscription
 ```
 
 ### createRouter
 
-Creates a hash-based router that syncs URL with app state.
-
-**Signature:**
-```javascript
-createRouter(store)
-```
+Adds hash-based routing that syncs with your application state.
 
 **Parameters:**
-- `store` (object) - The app's store object from `createApp`
+- `store` (object) - Your app's store from `createApp`
 
 **Example:**
 ```javascript
-import { createApp, createElement as h } from '../framework/core.js';
-import { createRouter } from '../framework/router.js';
+import { createApp, createElement as h } from './framework/core.js';
+import { createRouter } from './framework/router.js';
 
-const initialState = { currentFilter: '#/' };
+const initialState = { route: '#/' };
 
 function view(state) {
     return h('div', {},
-        h('p', {}, `Current route: ${state.currentFilter}`),
-        h('a', { href: '#/page1' }, 'Page 1'),
-        h('a', { href: '#/page2' }, 'Page 2')
+        h('nav', {},
+            h('a', { href: '#/home' }, 'Home'),
+            h('a', { href: '#/about' }, 'About')
+        ),
+        h('p', {}, `Current route: ${state.route}`)
     );
 }
 
 const store = createApp({ view, initialState, rootElement: document.getElementById('root') });
-createRouter(store); // Syncs hash changes to state.currentFilter
+createRouter(store); // Now URL changes update state.route
 ```
 
 ## 💡 Code Examples
 
-### Creating an Element
-
-```javascript
-import { createElement as h } from '../framework/core.js';
-
-// Basic element
-const element = h('div', { id: 'foo' }, 'Hello');
-
-// Result: <div id="foo">Hello</div>
-```
-
-### Nesting Elements
-
-```javascript
-import { createElement as h } from '../framework/core.js';
-
-const nested = h('div', {},
-    h('span', {}, 'Nested content'),
-    h('strong', {}, 'Bold text')
-);
-
-// Result:
-// <div>
-//   <span>Nested content</span>
-//   <strong>Bold text</strong>
-// </div>
-```
-
-### Adding Attributes
-
-```javascript
-import { createElement as h } from '../framework/core.js';
-
-const withAttrs = h('input', {
-    type: 'text',
-    class: 'my-input',
-    placeholder: 'Enter text...',
-    value: 'Initial value'
-});
-
-// Result: <input type="text" class="my-input" placeholder="Enter text..." value="Initial value">
-```
-
-### Creating an Event
-
-```javascript
-import { createElement as h } from '../framework/core.js';
-
-const button = h('button', {
-    onclick: () => alert('Button clicked!')
-}, 'Click Me');
-
-// Result: <button>Click Me</button> (with click event listener)
-```
-
-### Complete App Example
+### Basic Counter App
 
 ```javascript
 import { createApp, createElement as h } from '../framework/core.js';
 
-// Initial state
+const initialState = { count: 0 };
+
+function view(state) {
+    return h('div', { class: 'counter' },
+        h('h1', {}, `Count: ${state.count}`),
+        h('button', {
+            onclick: () => store.setState({ count: state.count + 1 })
+        }, '+'),
+        h('button', {
+            onclick: () => store.setState({ count: state.count - 1 })
+        }, '-')
+    );
+}
+
+const store = createApp({
+    view,
+    initialState,
+    rootElement: document.getElementById('root')
+});
+```
+
+### Todo List Application
+
+```javascript
+import { createApp, createElement as h } from '../framework/core.js';
+
 const initialState = {
-    items: [],
+    todos: [],
     inputValue: ''
 };
 
-// View function
 function view(state) {
-    return h('div', { class: 'app' },
-        h('h1', {}, 'Shopping List'),
+    return h('div', { class: 'todo-app' },
+        h('h1', {}, 'Todo List'),
         h('input', {
             type: 'text',
             value: state.inputValue,
+            placeholder: 'Add a new todo...',
             oninput: (e) => store.setState({ inputValue: e.target.value })
         }),
         h('button', {
             onclick: () => {
                 if (state.inputValue.trim()) {
                     store.setState({
-                        items: [...state.items, state.inputValue],
+                        todos: [...state.todos, {
+                            id: Date.now(),
+                            text: state.inputValue,
+                            completed: false
+                        }],
                         inputValue: ''
                     });
                 }
             }
-        }, 'Add Item'),
+        }, 'Add Todo'),
         h('ul', {},
-            ...state.items.map((item, index) =>
-                h('li', {}, 
-                    item,
-                    h('button', {
-                        onclick: () => {
-                            const newItems = state.items.filter((_, i) => i !== index);
-                            store.setState({ items: newItems });
-                        }
-                    }, 'Remove')
-                )
+            ...state.todos.map(todo =>
+                h('li', {
+                    class: todo.completed ? 'completed' : '',
+                    onclick: () => {
+                        const updatedTodos = state.todos.map(t =>
+                            t.id === todo.id ? { ...t, completed: !t.completed } : t
+                        );
+                        store.setState({ todos: updatedTodos });
+                    }
+                }, todo.text)
             )
         )
     );
 }
 
-// Create app
-const rootElement = document.getElementById('root');
-const store = createApp({ view, initialState, rootElement });
+const store = createApp({
+    view,
+    initialState,
+    rootElement: document.getElementById('root')
+});
+```
+
+### Simple Router Example
+
+```javascript
+import { createApp, createElement as h } from '../framework/core.js';
+import { createRouter } from '../framework/router.js';
+
+const initialState = { route: '#/' };
+
+function view(state) {
+    const routes = {
+        '#/': h('div', {}, h('h1', {}, 'Home Page'), h('p', {}, 'Welcome!')),
+        '#/about': h('div', {}, h('h1', {}, 'About'), h('p', {}, 'About this app...')),
+        '#/contact': h('div', {}, h('h1', {}, 'Contact'), h('p', {}, 'Get in touch!'))
+    };
+
+    return h('div', {},
+        h('nav', {},
+            h('a', { href: '#/home' }, 'Home'),
+            h('a', { href: '#/about' }, 'About'),
+            h('a', { href: '#/contact' }, 'Contact')
+        ),
+        routes[state.route] || h('div', {}, h('h1', {}, '404 - Page Not Found'))
+    );
+}
+
+const store = createApp({ view, initialState, rootElement: document.getElementById('root') });
+createRouter(store);
 ```
 
 ## 🎨 TodoMVC Demo
 
-This framework includes a complete TodoMVC implementation demonstrating all features. To run it:
+The framework includes a complete TodoMVC implementation that demonstrates all features in action. This is the classic TodoMVC example that developers use to compare framework capabilities.
 
-1. Open `index.html` in a browser (or use a local server)
-2. The TodoMVC app will load with all standard features:
-   - Add new todos
-   - Mark todos as complete
-   - Edit todos (double-click)
-   - Delete todos
-   - Filter by All/Active/Completed
-   - Clear completed todos
-   - Toggle all todos
-   - Persistent storage (localStorage)
+**Features demonstrated:**
+- Adding, editing, and deleting todos
+- Marking todos as complete/incomplete
+- Filtering todos (All, Active, Completed)
+- Bulk actions (toggle all, clear completed)
+- Local storage persistence
+- Responsive design
 
-The TodoMVC source code is in `/app/main.js` and serves as a comprehensive example of using the framework.
+**To run the demo:**
+1. Open `index.html` in your browser
+2. Start adding todos and explore the features
+3. Check the browser's developer tools to see the Virtual DOM in action
 
-## 🤔 Why Things Work The Way They Work
+The TodoMVC code serves as an excellent reference for building real applications with PicoJS.
 
-### Virtual DOM Pattern
+## 🤔 Why It Works This Way
 
-**Why not manipulate the DOM directly?**
+### Virtual DOM Approach
 
-Direct DOM manipulation becomes complex and error-prone in large applications. The Virtual DOM pattern provides:
+Instead of directly manipulating the DOM (which can be slow and error-prone), PicoJS uses a Virtual DOM:
 
-1. **Abstraction** - You describe what you want, not how to create it
-2. **Simplicity** - No need to manually track DOM state
-3. **Predictability** - The UI is a pure function of state
+1. **Describe your UI** as a function of state
+2. **Generate virtual elements** (plain JavaScript objects)
+3. **Compare** old vs new virtual trees
+4. **Update only what changed** in the real DOM
+
+This approach gives you:
+- **Performance** - Minimal DOM operations
+- **Predictability** - UI is always in sync with state
+- **Simplicity** - No manual DOM manipulation
 
 ### Reactive State Management
 
-**Why use a store with subscriptions?**
-
-The reactive pattern ensures the UI automatically updates when state changes:
-
-1. All state lives in one place (single source of truth)
-2. State changes trigger automatic re-renders
-3. Components don't need to manually update the UI
-
-### Event Handling via Attributes
-
-**Why pass events as attributes (onclick, oninput)?**
-
-This declarative approach:
-
-1. Makes event handling explicit in the UI definition
-2. Automatically cleans up listeners when elements are removed
-3. Keeps event logic close to the elements they affect
-
-**How it differs from `addEventListener()`:**
-
-Unlike the standard `addEventListener()` method, the framework uses a **custom event delegation system**:
+State changes automatically trigger UI updates through a subscription system:
 
 ```javascript
-// Standard addEventListener (NOT used in this framework)
-element.addEventListener('click', handler);
+// When you call setState
+store.setState({ count: 1 });
 
-// Framework's declarative approach
-const button = h('button', {
-    onclick: () => console.log('Clicked!')
-}, 'Click Me');
+// The framework automatically:
+// 1. Updates internal state
+// 2. Calls your view function with new state
+// 3. Generates new virtual DOM
+// 4. Patches the real DOM
+// 5. UI updates instantly
 ```
 
-**Under the hood:**
-1. Event handlers are registered in a central `eventRegistry`
-2. A single delegated listener is attached to the root element for each event type
-3. Events bubble up and are matched using `data-ev-{eventName}` attributes
-4. Handlers are deduplicated using a WeakMap to prevent memory leaks
-5. When elements are removed, their handlers are automatically cleaned up
+### Event Delegation System
 
-This approach is more efficient than attaching individual listeners to every element.
+Instead of attaching event listeners to every element, PicoJS uses event delegation:
 
-### Hash-based Routing
+- **Single listener** per event type on the root element
+- **Event bubbling** carries events up to the root
+- **Data attributes** identify which element was clicked
+- **Automatic cleanup** when elements are removed
 
-**Why use hash routing instead of history API?**
+This provides better performance and prevents memory leaks.
 
-Hash routing is simpler and works without a server:
+### Hash-Based Routing
 
-1. No server configuration needed
-2. Works with static file hosting
-3. Changes don't trigger page reloads
-4. Easy to sync with app state
+Hash routing (`#/page`) works without server configuration:
 
-### Immutable State Updates
+- **No page reloads** - Changes happen instantly
+- **Bookmarkable** - URLs work with browser back/forward
+- **Simple** - No complex server setup needed
+- **State synced** - URL changes update your app state
 
-**Why use `{ ...state, ...newState }` instead of mutating?**
+## 🌐 Live Demo
 
-Immutability ensures:
+Check out the live demo deployed on GitHub Pages:  
+**[https://yourusername.github.io/picojs-framework](https://yourusername.github.io/picojs-framework)**
 
-1. Previous state is never accidentally modified
-2. State changes are predictable and traceable
-3. Easier debugging and testing
+The demo includes the full TodoMVC application running directly in the browser.
 
-### Function-based Components
+## 🤝 Contributing
 
-**Why use view functions instead of classes?**
+We welcome contributions! Here's how you can help:
 
-Functions are simpler:
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Make your changes**
+4. **Test thoroughly** - Make sure existing functionality still works
+5. **Commit your changes** (`git commit -m 'Add amazing feature'`)
+6. **Push to the branch** (`git push origin feature/amazing-feature`)
+7. **Open a Pull Request**
 
-1. No `this` binding issues
-2. Easier to understand and test
-3. State is managed externally by the store
-4. Pure functions are easier to reason about
+### Development Guidelines
 
-## �📄 License
+- Keep the bundle size small
+- Maintain zero dependencies
+- Write clear, commented code
+- Add examples for new features
+- Test in multiple browsers
 
-This project is licensed under the MIT License. See the [LICENSE.md](LICENSE.md) file for details.
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## 👨‍💻 Author
 
-**Sayed Ahmed Husain**
-- Email: [sayedahmed97.sad@gmail.com](mailto:sayedahmed97.sad@gmail.com)
+**Sayed Ahmed Husain**  
+Email: [sayedahmed97.sad@gmail.com](mailto:sayedahmed97.sad@gmail.com)
+
+---
+
+**Built with ❤️ for simplicity**

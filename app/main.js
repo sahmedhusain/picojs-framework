@@ -2,7 +2,7 @@ import { createApp, createElement as h } from '../framework/core.js';
 import { createRouter } from '../framework/router.js';
 
 const initialState = {
-    todos: JSON.parse(localStorage.getItem('todos-miniframework') || '[]'),
+    todos: JSON.parse(localStorage.getItem('todos-picojs') || '[]'),
     newTodo: '',
     currentFilter: '#/',
     editingId: null,
@@ -12,7 +12,7 @@ const initialState = {
 let store;
 
 function saveTodos(todos) {
-    localStorage.setItem('todos-miniframework', JSON.stringify(todos));
+    localStorage.setItem('todos-picojs', JSON.stringify(todos));
 }
 
 function addTodo() {
