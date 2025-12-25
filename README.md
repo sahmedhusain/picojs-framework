@@ -547,7 +547,7 @@ Hash routing (`#/page`) works without server configuration:
 ## 🌐 Live Demo
 
 Check out the live demo deployed on GitHub Pages:  
-**[https://sahmedhusain.github.io/picojs-framework](https://yourusername.github.io/picojs-framework)**
+**[https://sahmedhusain.github.io/picojs-framework](https://sahmedhusain.github.io/picojs-framework)**
 
 The demo includes the full TodoMVC application running directly in the browser.
 
