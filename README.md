@@ -1,13 +1,32 @@
-# PicoJS Framework
+# PicoJS Framework ⚡
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=165&text=PicoJS%20Framework&fontSize=40&fontAlignY=30&fontColor=3da7f0&desc=Lightweight%20%7C%20Zero-dependency%20%7C%20Reactive%20UI%20from%20scratch&descAlignY=50&animation=twinkling" alt="PicoJS Framework Banner" />
+</p>
 
 <div align="center">
-  <img src="logo.svg" alt="PicoJS Framework Logo" width="120" height="120">
+  <img src="logo.svg" alt="PicoJS Framework Logo" width="160" height="160">
   <h3>A lightweight, zero-dependency JavaScript framework for building reactive web applications</h3>
 </div>
 
 <p align="center">
-  <a href="https://github.com/yourusername/picojs-framework"><img src="https://img.shields.io/badge/GitHub-Repository-blue?style=flat-square&logo=github" alt="GitHub Repository"></a>
-  <a href="https://yourusername.github.io/picojs-framework"><img src="https://img.shields.io/badge/Live-Demo-green?style=flat-square&logo=github" alt="Live Demo"></a>
+  <a href="#-overview">Overview</a> •
+  <a href="#-features">Features</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-getting-started">Get Started</a> •
+  <a href="#-api-documentation">API</a> •
+  <a href="#-todomvc-demo">Demo</a>
+</p>
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=900&center=true&vCenter=true&width=980&lines=Virtual+DOM+diffing+%7C+Reactive+state+%7C+Event+delegation;Hash+router+that+syncs+with+state+%7C+ES6+Modules;Small%2C+understandable%2C+and+designed+for+learning" alt="Typing SVG" />
+</p>
+
+---
+
+<p align="center">
+  <a href="https://github.com/sahmedhusain/picojs-framework"><img src="https://img.shields.io/badge/GitHub-Repository-blue?style=flat-square&logo=github" alt="GitHub Repository"></a>
+  <a href="https://sahmedhusain.github.io/picojs-framework"><img src="https://img.shields.io/badge/Live-Demo-green?style=flat-square&logo=github" alt="Live Demo"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License"></a>
 </p>
 
@@ -21,9 +40,11 @@
 
 ---
 
-A lightweight, zero-dependency JavaScript framework for building reactive web applications with modern architecture patterns.
+A lightweight, zero-dependency JavaScript framework for building reactive web apps — designed to stay small, readable, and easy to learn from.
 
 ## 📋 Table of Contents
+
+Jump to any section below — the framework is small, but the docs are detailed so it’s easy to understand and extend.
 
 - [Overview](#-overview)
 - [Features](#-features)
@@ -38,41 +59,70 @@ A lightweight, zero-dependency JavaScript framework for building reactive web ap
 - [Contributing](#-contributing)
 - [License](#-license)
 
+
+---
+
+## ⭐ Key Highlights
+
+- **Zero-dependency by design** — no external libraries required.
+- **Reactive state + Virtual DOM** — UI updates automatically with minimal DOM changes.
+- **Event delegation system** — performance-friendly handlers with cleanup.
+- **Hash-based routing** — simple navigation that syncs with state.
+- **Educational architecture** — modular, readable code meant to be studied and extended.
+
+### 🧩 At a Glance
+
+```text
+State (store) → view(state) → Virtual DOM tree
+                  ↓
+             diff + patch
+                  ↓
+               Real DOM
+```
+
+---
+
 ## 🎯 Overview
 
-**PicoJS Framework** is a minimal yet powerful JavaScript framework designed for building reactive web applications. It combines the best ideas from modern frameworks like React and Vue but strips away complexity to focus on core concepts. With zero external dependencies, it provides Virtual DOM rendering, reactive state management, event delegation, and hash-based routing - all in under 10KB gzipped.
+**PicoJS Framework** is a small JavaScript framework built to show how modern UI ideas fit together while you build reactive web apps. It borrows familiar patterns from frameworks like React and Vue but keeps Virtual DOM rendering, reactive state management, event delegation, and hash-based routing in one place with zero external dependencies, staying under 10KB gzipped.
 
-The framework emphasizes simplicity and learnability, making it perfect for developers who want to understand how modern web frameworks work under the hood. Whether you're building a small project or learning framework internals, PicoJS gives you the tools you need without the overhead.
+The code is written to be read: you can trace how state drives the UI without sifting through layers of abstraction, whether you're shipping a small project or studying framework internals.
+
+
+---
 
 ## ✨ Features
 
 ### Core Functionality
-- **Virtual DOM** - Efficient rendering with minimal DOM updates
-- **Reactive State** - Automatic UI updates when state changes
-- **Component Architecture** - Build UIs with composable functions
-- **Event System** - Declarative event handling with automatic cleanup
-- **Router** - Hash-based navigation that syncs with application state
+- **Virtual DOM** - Calculates diffs and patches only the DOM nodes that change
+- **Reactive State** - State updates automatically trigger re-renders
+- **Component Architecture** - Compose UIs from plain functions that return virtual nodes
+- **Event System** - Attach events declaratively; delegation handles cleanup
+- **Router** - Hash-based navigation that stays in sync with application state
 
 ### Developer Experience
-- **Zero Dependencies** - No external libraries required
-- **Small Bundle Size** - Under 10KB gzipped for fast loading
-- **ES6 Modules** - Modern JavaScript with tree-shaking support
-- **Educational** - Clean code that's easy to understand and modify
+- **Zero Dependencies** - Runs without pulling in external libraries
+- **Small Bundle Size** - Under 10KB gzipped to keep downloads small
+- **ES6 Modules** - Uses native modules so bundlers can tree-shake if needed
+- **Educational** - Organized for reading, tinkering, and modifying
 - **Browser Native** - Works in all modern browsers without transpilation
 
 ### Performance
-- **Efficient Diffing** - Only updates changed DOM elements
-- **Event Delegation** - Single listeners for better performance
-- **Memory Efficient** - Automatic cleanup prevents memory leaks
-- **Fast Rendering** - Optimized Virtual DOM patching algorithm
+- **Efficient Diffing** - Compares virtual trees and updates only changed nodes
+- **Event Delegation** - Shares listeners on the root instead of per element
+- **Memory Efficient** - Cleans up listeners when elements leave the DOM
+- **Fast Rendering** - Lean Virtual DOM patching keeps updates responsive
+
+
+---
 
 ## 🛠 Tech Stack
 
 ### Core Technologies
-- **JavaScript ES6+** - Modern JavaScript with modules
-- **Virtual DOM** - Custom implementation for efficient rendering
-- **Hash Routing** - Client-side routing without server configuration
-- **Event Delegation** - Optimized event handling system
+- **JavaScript ES6+** - Uses native modules and modern syntax
+- **Virtual DOM** - Custom implementation to control render work
+- **Hash Routing** - Client-side routes via URL hashes without extra server setup
+- **Event Delegation** - Centralized handling to reduce attached listeners
 
 ### Browser Support
 - Chrome 60+
@@ -81,25 +131,33 @@ The framework emphasizes simplicity and learnability, making it perfect for deve
 - Edge 79+
 
 ### Development Tools
-- **Local Server** - Python's built-in server for development
-- **ES6 Modules** - Native browser module support
-- **Git** - Version control and collaboration
+- **Local Server** - Uses Python's built-in server to serve files locally
+- **ES6 Modules** - Relies on native browser module support; bundlers optional
+- **Git** - Version control for changes and collaboration
+
+
+---
 
 ## 🏗 Architecture
 
-PicoJS follows a modular architecture where each piece has a single responsibility. The framework is built around three main concepts:
+PicoJS keeps modules small and focused so it's clear how each part connects to the next. The framework leans on three ideas:
 
-1. **State Management** - A reactive store that triggers re-renders
-2. **Virtual DOM** - A lightweight representation of the real DOM
-3. **Event System** - Declarative event handling with delegation
+1. **State Management** - A reactive store that triggers re-renders whenever data changes
+2. **Virtual DOM** - A lightweight representation of the real DOM to plan updates
+3. **Event System** - Declarative event handling with delegation to avoid scattered listeners
 
 ### Data Flow
+
+A user interaction moves through a handler, updates state, and re-runs the view. The view returns a Virtual DOM tree that's diffed against the previous one so only the necessary changes reach the real DOM.
 
 ```
 User Interaction → Event Handler → State Update → View Function → Virtual DOM → DOM Patch → UI Update
 ```
 
-This unidirectional data flow makes applications predictable and easy to debug.
+This one-way path keeps applications predictable and easier to debug.
+
+
+---
 
 ## 📁 Framework Structure
 
@@ -164,6 +222,9 @@ graph TD
 **Events Module (events.js)** - Implements event delegation for performance
 **VDOM Modules** - Handle virtual DOM creation, diffing, and patching
 
+
+---
+
 ## 🚀 Getting Started
 
 ### Quick Start (Recommended)
@@ -172,7 +233,7 @@ The fastest way to get started is using the included setup script:
 
 ```bash
 # Clone or download the framework
-git clone https://github.com/yourusername/picojs-framework.git
+git clone https://github.com/sahmedhusain/picojs-framework.git
 cd picojs-framework
 
 # Create a new project
@@ -242,6 +303,12 @@ const store = createApp({
 ```bash
 python3 -m http.server 8000
 ```
+
+
+---
+
+<details open>
+<summary><strong>📚 API Documentation (expand/collapse)</strong></summary>
 
 ## 📚 API Documentation
 
@@ -360,6 +427,14 @@ const store = createApp({ view, initialState, rootElement: document.getElementBy
 createRouter(store); // Now URL changes update state.route
 ```
 
+</details>
+
+---
+
+
+<details>
+<summary><strong>💡 Code Examples (expand/collapse)</strong></summary>
+
 ## 💡 Code Examples
 
 ### Basic Counter App
@@ -473,6 +548,10 @@ const store = createApp({ view, initialState, rootElement: document.getElementBy
 createRouter(store);
 ```
 
+</details>
+
+---
+
 ## 🎨 TodoMVC Demo
 
 The framework includes a complete TodoMVC implementation that demonstrates all features in action. This is the classic TodoMVC example that developers use to compare framework capabilities.
@@ -492,6 +571,8 @@ The framework includes a complete TodoMVC implementation that demonstrates all f
 
 The TodoMVC code serves as an excellent reference for building real applications with PicoJS.
 
+
+---
 ## 🤔 Why It Works This Way
 
 ### Virtual DOM Approach
@@ -544,6 +625,8 @@ Hash routing (`#/page`) works without server configuration:
 - **Simple** - No complex server setup needed
 - **State synced** - URL changes update your app state
 
+
+---
 ## 🌐 Live Demo
 
 Check out the live demo deployed on GitHub Pages:  
@@ -551,6 +634,8 @@ Check out the live demo deployed on GitHub Pages:
 
 The demo includes the full TodoMVC application running directly in the browser.
 
+
+---
 ## 🤝 Contributing
 
 We welcome contributions! Here's how you can help:
@@ -571,10 +656,14 @@ We welcome contributions! Here's how you can help:
 - Add examples for new features
 - Test in multiple browsers
 
+
+---
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
+
+---
 ## 👨‍💻 Author
 
 **Sayed Ahmed Husain**  
