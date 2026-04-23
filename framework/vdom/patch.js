@@ -50,6 +50,17 @@ export function patch(parent, oldVNode, newVNode, index = 0) {
         return;
     }
 
+    // Same tag but different keys - replace entire subtree to avoid stale UI reuse.
+    if (oldVNode.key !== newVNode.key) {
+        const newElement = createDOMElement(newVNode);
+        if (domNode) {
+            parent.replaceChild(newElement, domNode);
+        } else {
+            parent.appendChild(newElement);
+        }
+        return;
+    }
+
     // Text node - update content if changed
     if (oldVNode.tag === TEXT_ELEMENT) {
         if (oldVNode.children && newVNode.children && oldVNode.children[0] !== newVNode.children[0]) {
